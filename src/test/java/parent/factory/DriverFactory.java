@@ -19,11 +19,8 @@ public class DriverFactory {
                 System.setProperty("webdriver.gecko.driver", "driver/geckodriver.exe");
                 driver=new FirefoxDriver();
             }
-
             default -> throw new IllegalAccessException("Invalid bowser:" + browser);
         }
-
-
         return driver;
     }
     public static WebDriver getDriver(){

@@ -11,6 +11,9 @@ public class StorePage extends BasePage{
         super(driver);
     }
     @FindBy(css = "a[title='View cart']") private WebElement ViewCartLink;
+    @FindBy(id = "woocommerce-product-search-field-0") private WebElement searchElement;
+    @FindBy(css = "button[value='Search']") private WebElement searchButton;
+    @FindBy(className = "woocommerce-loop-product__title") private WebElement productTitle;
 
     public void addToCart(String productName){
         By addToCartButton = By.cssSelector("a[aria-label='Add “" + productName + "” to your cart']");
@@ -18,6 +21,18 @@ public class StorePage extends BasePage{
         wait.until(ExpectedConditions.elementToBeClickable(ViewCartLink)).click();
 
     }
+
+    public void enterProductName(){
+        searchElement.sendKeys("Blue Shoes");
+    }
+    public void searchButton(){
+        searchButton.click();
+    }
+
+    public String getProductTitle(){
+        return productTitle.getText();
+    }
+
 
 
 }

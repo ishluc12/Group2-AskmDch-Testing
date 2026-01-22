@@ -4,9 +4,9 @@ import parent.domainObject.Product;
 import io.cucumber.java.ParameterType;
 
 public class CustomParameterType {
-    @ParameterType("[A-Za-z]+")
-    public Product product(String name){
-        return new Product(name);
+    @ParameterType(".*")
+    public Product setProduct(String product){
+        return new Product(product);
     }
 
 }

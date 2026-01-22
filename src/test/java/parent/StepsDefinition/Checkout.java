@@ -1,71 +1,89 @@
 package parent.StepsDefinition;
 
-import io.cucumber.datatable.DataTable;
-import io.cucumber.java.en.*;
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import org.openqa.selenium.WebDriver;
-import parent.constants.EndPoint;
+import org.testng.Assert;
 import parent.domainObject.BillingDetails;
 import parent.factory.DriverFactory;
+import parent.pages.CartPage;
 import parent.pages.CheckoutPage;
+import parent.pages.StorePage;
 
 import java.util.Map;
 
 public class Checkout {
-
-    private WebDriver driver = DriverFactory.getDriver();
+    private WebDriver driver;
+    private CartPage cartPage;
     private CheckoutPage checkoutPage;
 
-    @Given("I am on the checkout page")
-    public void i_am_on_the_checkout_page() {
-        checkoutPage = new CheckoutPage(driver);
-        checkoutPage.load(EndPoint.CHECKOUT.url);
+    @And("I add {string} to my cart")
+    public void iAddProductToCart(String productName) {
+        driver = DriverFactory.getDriver();
+        StorePage storePage = new StorePage(driver);
+        storePage.addToCart(productName);
+
+        // Initialize CartPage after adding a product
+        cartPage = new CartPage(driver);
     }
 
-    @When("I enter valid billing details:")
-    public void i_enter_valid_billing_details(DataTable dataTable) {
-        Map<String, String> entry = dataTable.asMap(String.class, String.class);
+    @When("I proceed to checkout")
+    public void iProceedToCheckout() {
+        if (cartPage == null) {
+            cartPage = new CartPage(DriverFactory.getDriver());
+        }
+        cartPage.clickCheckoutButton();
+        checkoutPage = new CheckoutPage(driver);
+    }
 
-        BillingDetails billingDetails = new BillingDetails(
-                entry.get("First name"),
-                entry.get("Last name"),
-                entry.get("Company name"),
-                entry.get("Country/Region"),
-                entry.get("Street address"),
-                entry.get("City"),
-                entry.get("State"),
-                entry.get("ZIP code"),
-                entry.get("Email address"),
-                entry.get("Phone"),
-                entry.getOrDefault("Apartment/unit", "") // optional
+    @And("I provide my billing information:")
+    public void iProvideBillingInformation(io.cucumber.datatable.DataTable table) {
+        driver = DriverFactory.getDriver();
+        checkoutPage = new CheckoutPage(driver);
+
+        Map<String, String> data = table.asMap(String.class, String.class);
+
+        BillingDetails billing = new BillingDetails(
+                data.get("First name"),
+                data.get("Last name"),
+                data.get("Company name"),
+                data.get("Country/Region"),
+                data.get("Street address"),
+                data.get("City"),
+                data.get("State"),
+                data.get("ZIP code"),
+                data.get("Email address"),
+                data.get("Phone"),
+                "Automation order"
         );
 
-        checkoutPage.setBillingDetails(billingDetails)
-                .setAppartment(entry.getOrDefault("Apartment/unit", ""));
+        checkoutPage.setBillingDetails(billing);
     }
 
-    @When("I select {string} as the payment method")
-    public void i_select_as_the_payment_method(String paymentMethod) {
-        checkoutPage.selectPaymentMethod(paymentMethod);
+    @And("I select the payment method")
+    public void iSelectThePaymentMethod() {
+        checkoutPage.selectPaymentMethod("Cash on delivery");
     }
 
-    @When("I click the Place Order button")
-    public void i_click_the_place_order_button() {
-        checkoutPage.clickToPlaceOrder();
+    @And("I place the order")
+    public void iPlaceTheOrder() {
+        checkoutPage.placeOrder();
     }
 
-    @Then("a confirmation message {string} is displayed")
-    public void a_confirmation_message_is_displayed(String expectedMessage) {
-        String actualMessage = checkoutPage.getText();
-        if (!actualMessage.contains(expectedMessage)) {
-            throw new AssertionError(
-                    "Expected message: " + expectedMessage + " but got: " + actualMessage
-            );
-        }
+    @Then("I should see a confirmation message")
+    public void confirmationMessageIsDisplayed() {
+        Assert.assertTrue(
+                checkoutPage.getConfirmationMessage().contains("Thank you"),
+                "Order confirmation message not displayed"
+        );
     }
 
-    @Then("I can see the order number")
-    public void i_can_see_the_order_number() {
-        String orderNumber = checkoutPage.getOrder();
-        System.out.println("Order number: " + orderNumber);
+    @And("an order number should be generated")
+    public void orderNumberShouldBeGenerated() {
+        Assert.assertFalse(
+                checkoutPage.getOrderNumber().isEmpty(),
+                "Order number was not generated"
+        );
     }
 }

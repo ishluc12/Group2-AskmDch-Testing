@@ -1,14 +1,17 @@
 package parent.domainObject;
 
 public class Product {
-    public Product(String name) {
-        this.name = name;
+    private String product;
+
+    public Product(String product) {
+        this.product = product;
     }
-    public String getName() {
-        return name;
+
+    public String getProductName() {
+        return product;
     }
-    public void setName(String name) {
-        this.name = name;
+
+    public void setProductName(String product) {
+        this.product = product;
     }
-    private String name;
 }

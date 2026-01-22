@@ -3,6 +3,7 @@ package parent.constants;
 public enum EndPoint {
     STORE("/store"),
     ACCOUNT("/account"),
+    CART("/cart"),
     CHECKOUT("/checkout");
 
     public final String url;

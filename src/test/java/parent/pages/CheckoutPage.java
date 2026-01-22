@@ -13,133 +13,94 @@ import parent.domainObject.BillingDetails;
 import java.time.Duration;
 import java.util.List;
 
-public class CheckoutPage extends BasePage{
-    @FindBy(id="billing_first_name") private WebElement firstnameFiled;
-    @FindBy(id="billing_last_name") private WebElement lastnameFiled;
-    @FindBy(id="billing_company") private WebElement companyNameFiled;
-    @FindBy(id="billing_country") private WebElement countryNameFiled;
-    @FindBy(id="billing_address_1") private WebElement streetField;
-    @FindBy(id="billing_address_2") private WebElement appartmentField;
-    @FindBy(id="billing_city") private WebElement cityField;
-    @FindBy(id="billing_state") private WebElement stateField;
-    @FindBy(id="billing_postcode") private WebElement zipField;
-    @FindBy(id="billing_postcode") private WebElement phoneField;
-    @FindBy(id="billing_email") private WebElement emailField;
-    @FindBy(id="order_comments") private WebElement textField;
-    @FindBy(css = "ul.wc_payment_methods") private WebElement paymentCheck;
-    @FindBy(id="place_order") private WebElement placeOrderBtn;
+public class CheckoutPage extends BasePage {
+
+    @FindBy(id = "billing_first_name") private WebElement firstnameField;
+    @FindBy(id = "billing_last_name") private WebElement lastnameField;
+    @FindBy(id = "billing_company") private WebElement companyField;
+    @FindBy(id = "billing_country") private WebElement countrySelect;
+    @FindBy(id = "billing_address_1") private WebElement streetField;
+    @FindBy(id = "billing_address_2") private WebElement apartmentField;
+    @FindBy(id = "billing_city") private WebElement cityField;
+    @FindBy(id = "billing_state") private WebElement stateSelect;
+    @FindBy(id = "billing_postcode") private WebElement zipField;
+    @FindBy(id = "billing_phone") private WebElement phoneField;
+    @FindBy(id = "billing_email") private WebElement emailField;
+    @FindBy(id = "order_comments") private WebElement commentsField;
+
+    @FindBy(css = "ul.wc_payment_methods") private WebElement paymentMethods;
+    @FindBy(id = "place_order") private WebElement placeOrderButton;
+
     @FindBy(css = ".woocommerce-notice") private WebElement confirmationMessage;
     @FindBy(css = ".woocommerce-order-overview__order.order") private WebElement orderNumber;
 
-    public CheckoutPage(WebDriver driver){
+    private final WebDriverWait wait;
+
+    public CheckoutPage(WebDriver driver) {
         super(driver);
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
-    public CheckoutPage enterBillingFname(String fname){
-        WebElement element=firstnameFiled;
-        element.sendKeys(fname);
-        return this;
-    }
-    public CheckoutPage enterBillingLname(String lname){
-        WebElement element=lastnameFiled;
-        element.sendKeys(lname);
-        return this;
-    }
-    public CheckoutPage enterBillingCompany(String company){
-        WebElement element=lastnameFiled;
-        element.sendKeys(company);
-        return this;
-    }
-    public CheckoutPage selectCountry(String country){
-        WebElement element=lastnameFiled;
-        element.sendKeys(country);
-        return this;
-    }
-    public CheckoutPage enterBillingStreet(String street){
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        WebElement element = streetField;
-        js.executeScript("arguments[0].scrollIntoView(true);", element);
-        element.sendKeys(street);
-        return this;
-    }
-    public CheckoutPage setAppartment(String appartment){
-        WebElement element=appartmentField;
-        element.sendKeys(appartment);
-        return this;
-    }
-    public CheckoutPage enterBillingTown(String town){
-        WebElement element=cityField;
-        element.sendKeys(town);
-        return this;
-    }
-    public CheckoutPage selectState(String state){
-        WebElement element=stateField;
-        element.sendKeys(state);
-        return this;
-    }
-    public CheckoutPage enterBillingZip(String code){
-        WebElement element=zipField;
-        element.sendKeys(code);
-        return this;
-    }
-    public CheckoutPage enterBillingPhone(String phone){
-        WebElement element=phoneField;
-        element.sendKeys(phone);
-        return this;
-    }
-    public CheckoutPage enterBillingEmail(String email){
-        WebElement element=emailField;
-        element.sendKeys(email);
-        return this;
-    }
-    public CheckoutPage enterBillingText(String text){
-        WebElement element=textField;
-        element.sendKeys(text);
-        return this;
-    }
-    public CheckoutPage selectPaymentMethod(String paymentMethodText) {
 
-        List<WebElement> methods = paymentCheck.findElements(By.cssSelector("li.wc_payment_method"));
+    public CheckoutPage setBillingDetails(BillingDetails billing) {
 
-        for (WebElement method : methods) {
-            WebElement label = method.findElement(By.tagName("label"));
-            if (label.getText().trim().equalsIgnoreCase(paymentMethodText)) {
-                label.click();
+        // Fill basic info
+        firstnameField.sendKeys(billing.getFirstname());
+        lastnameField.sendKeys(billing.getLastname());
+        companyField.sendKeys(billing.getCompany());
+
+        // COUNTRY
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", countrySelect);
+        new Select(countrySelect).selectByVisibleText(billing.getCountry());
+
+        // Address fields
+        streetField.sendKeys(billing.getLastAddressOne());
+        apartmentField.sendKeys(billing.getAdditionText());
+        cityField.sendKeys(billing.getCity());
+
+        // STATE - wait and fallback
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", stateSelect);
+        try {
+            wait.until(d -> stateSelect.findElements(By.tagName("option")).size() > 1);
+            new Select(stateSelect).selectByVisibleText(billing.getStateName());
+        } catch (Exception e) {
+            // Fallback if dropdown not available or empty
+            stateSelect.sendKeys(billing.getStateName());
+        }
+
+        // Zip, phone, email, comments
+        zipField.sendKeys(billing.getZipCode());
+        phoneField.sendKeys(billing.getPhone());
+        emailField.sendKeys(billing.getEmail());
+        commentsField.sendKeys(billing.getAdditionText());
+
+        return this;
+    }
+
+    public CheckoutPage selectPaymentMethod(String method) {
+        List<WebElement> options =
+                paymentMethods.findElements(By.cssSelector("li.wc_payment_method label"));
+
+        for (WebElement option : options) {
+            if (option.getText().equalsIgnoreCase(method)) {
+                option.click();
                 break;
             }
         }
         return this;
     }
 
-
-
-    public CheckoutPage clickToPlaceOrder(){
-        WebElement element=wait.until(ExpectedConditions.visibilityOf((WebElement) placeOrderBtn));
-        element.click();
+    public CheckoutPage placeOrder() {
+        wait.until(ExpectedConditions.elementToBeClickable(placeOrderButton)).click();
         return this;
     }
 
-
-    public CheckoutPage setBillingDetails(BillingDetails billingDetails) {
-        return enterBillingFname(billingDetails.getFirstname())
-                .enterBillingLname(billingDetails.getLastname())
-                .enterBillingCompany(billingDetails.getCompany())
-                .selectCountry(billingDetails.getCountry())
-                .enterBillingStreet(billingDetails.getLastAddressOne())
-                .enterBillingTown(billingDetails.getCity())
-                .enterBillingZip(billingDetails.getZipCode())
-                .enterBillingEmail(billingDetails.getEmail())
-                .enterBillingPhone(billingDetails.getPhone())
-                .enterBillingText(billingDetails.getAdditionText());
+    public String getConfirmationMessage() {
+        wait.until(ExpectedConditions.visibilityOf(confirmationMessage));
+        return confirmationMessage.getText();
     }
 
-    public String getText() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        WebElement message = wait.until(ExpectedConditions.visibilityOf((WebElement)confirmationMessage));
-        return message.getText();
-    }
-    public String getOrder() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        WebElement message = wait.until(ExpectedConditions.visibilityOf((WebElement)orderNumber));
-        return message.getText();
+    public String getOrderNumber() {
+        wait.until(ExpectedConditions.visibilityOf(orderNumber));
+        return orderNumber.getText();
     }
 }

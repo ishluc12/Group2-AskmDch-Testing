@@ -10,7 +10,7 @@ public class Hooks {
     private WebDriver driver;
     @Before
     public void before() throws IllegalAccessException {
-        driver=new DriverFactory().initializeDriver(System.setProperty("browser", "chrome"));
+        driver=new DriverFactory().initializeDriver(System.getProperty("browser", "chrome"));
     }
 
     @After

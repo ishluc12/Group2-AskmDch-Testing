@@ -3,6 +3,7 @@ package parent.pages;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import parent.utils.Configloader;
 
 import java.time.Duration;
 
@@ -16,8 +17,9 @@ public class BasePage {
         wait=new WebDriverWait(driver, Duration.ofSeconds(10));
         PageFactory.initElements(driver, this);
     }
-
-    public void load(String url){
-        driver.get(url);
+    public void load(String endPoint) throws IllegalAccessException {
+        driver.get(Configloader.getInstance().getBaseUrl() +endPoint);
     }
+
+
 }

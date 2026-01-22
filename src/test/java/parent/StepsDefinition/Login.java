@@ -19,34 +19,34 @@ import parent.pages.LoginPage;
 
 
 import static org.testng.Assert.assertTrue;
+import static parent.factory.DriverFactory.driver;
+import static parent.utils.Configloader.getInstance;
 
 public class Login {
-    private final WebDriver driver;
 
-    public  Login(){
-        driver= context.driver;
-    }
+    private WebDriver driver;
+
 
     @Given("I am in the login form of the Askmdch Application")
-    public void i_am_in_the_login_form_of_askmdch_application() throws IllegalAccessException {
-
-        new LoginPage(driver).load(EndPoint.Account.url);
+    public void i_am_in_the_login_form_of_the_askmdch_application()  throws IllegalAccessException {
+        driver=DriverFactory.getDriver();
+        new LoginPage(driver).load(EndPoint.ACCOUNT.url);
     }
 
 
     @When("I enter valid {string}")
-    public void i_enter_valid(String usernameOrEmail) {
+    public void i_enter_valid(String string) {
         LoginPage loginPage=new LoginPage(driver);
         loginPage.username("chris");
     }
 
-    @And("I enter valid password {string}")
-    public void i_enter_valid_password(String password) {
+    @When("I enter valid password {string}")
+    public void i_enter_valid_password(String string) {
         LoginPage loginPage=new LoginPage(driver);
         loginPage.password("chris123");
     }
 
-    @And("I click login button")
+    @When("I click login button")
     public void i_click_login_button() {
         LoginPage loginPage=new LoginPage(driver);
         loginPage.login();

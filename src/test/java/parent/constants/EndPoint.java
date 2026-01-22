@@ -2,7 +2,7 @@ package parent.constants;
 
 public enum EndPoint {
     STORE("/store"),
-    ACCOUNT("account");
+    ACCOUNT("/account");
 
     public final String url;
     EndPoint(String url){

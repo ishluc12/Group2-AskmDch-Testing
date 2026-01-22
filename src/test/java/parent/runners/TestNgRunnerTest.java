@@ -5,15 +5,16 @@ import io.cucumber.testng.AbstractTestNGCucumberTests;
 
 import static io.cucumber.testng.CucumberOptions.SnippetType.CAMELCASE;
 
-
 @CucumberOptions(
-        features = "src/test/resources/Features/BrowseByCategory.feature",
+        features = "src/test/resources/Features",
         glue = {"parent"},
+        snippets = CAMELCASE,
+        monochrome = true,
         plugin = {"pretty", "html:target/cucumber-report.html",
                 "json:target/cucumber-report.json"},
-        monochrome = true,
-        snippets=CAMELCASE
+        tags= "@browseByCategory"
 )
+
 public class TestNgRunnerTest extends AbstractTestNGCucumberTests {
 
 }

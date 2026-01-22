@@ -12,7 +12,7 @@ public class DriverFactory {
 
         switch(browser){
             case "chrome" -> {
-                System.setProperty("webdriver.chrome.driver", "driver/chromedriver.exe");
+                System.setProperty("webdriver.chrome.driver", "driver/chromedriver");
                 driver = new ChromeDriver();
             }
             case "firefox" -> {

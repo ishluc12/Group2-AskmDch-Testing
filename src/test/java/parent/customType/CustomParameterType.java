@@ -5,9 +5,8 @@ import io.cucumber.java.ParameterType;
 
 public class CustomParameterType {
     @ParameterType(".*")
-    public Product setProduct(String product){
-        return new Product(product);
+    public Product product(String name){
+        return new Product(name);
     }
-
 }
 

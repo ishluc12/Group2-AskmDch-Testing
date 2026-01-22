@@ -13,7 +13,6 @@ public class Configloader {
       properties=PropertyUtils.propertyLoader("src/test/resources/config.properties");
 
     }
-
     public static Configloader getInstance() throws IllegalAccessException {
         if(configureloader==null){
             configureloader=new Configloader();

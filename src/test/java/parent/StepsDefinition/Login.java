@@ -2,25 +2,15 @@ package parent.StepsDefinition;
 
 import parent.constants.EndPoint;
 import parent.factory.DriverFactory;
-import io.cucumber.java.After;
-import io.cucumber.java.Before;
-import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.w3c.dom.Text;
 import parent.pages.LoginPage;
 
 
-
-
 import static org.testng.Assert.assertTrue;
-import static parent.factory.DriverFactory.driver;
-import static parent.utils.Configloader.getInstance;
 
 public class Login {
 

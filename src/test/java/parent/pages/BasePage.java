@@ -17,7 +17,7 @@ public class BasePage {
         wait=new WebDriverWait(driver, Duration.ofSeconds(10));
         PageFactory.initElements(driver, this);
     }
-    public void load(String endPoint) throws IllegalAccessException {
+    public void load(String endPoint){
         driver.get(Configloader.getInstance().getBaseUrl() +endPoint);
     }
 

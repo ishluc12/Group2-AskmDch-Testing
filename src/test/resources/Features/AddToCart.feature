@@ -8,5 +8,5 @@ Feature: Add product to cart functionality
     When I add a "<product_name>" to the cart
     Then I should see 1 "<product_name>" in the cart
     Examples:
-      |product_name|
+      |product_name    |
       |"Blue Shoes"|

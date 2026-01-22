@@ -4,29 +4,37 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
 import parent.constants.EndPoint;
 import parent.domainObject.Product;
 import parent.factory.DriverFactory;
+import parent.pages.CartPage;
 import parent.pages.StorePage;
-import parent.utils.Configloader;
+
 
 public class AddToCart {
-    private WebDriver driver;
+    protected WebDriver driver;
+    protected StorePage storePage;
+    protected CartPage cartPage;
 
     @Given("I am on the store page")
     public void iAmOnTheStorePage() throws IllegalAccessException {
     driver = DriverFactory.getDriver();
-        StorePage storePage = new StorePage(driver);
-        storePage.load(EndPoint.STORE.url);
+    storePage = new StorePage(driver);
+    storePage.load(EndPoint.STORE.url);
 
     }
     @When("I add a {product} to the cart")
     public void iAddABlueShoesToTheCart(Product product) {
-
-
+        storePage.addToCart(product.getProductName());
     }
-    @Then("I should see {int} \"\"Blue Shoes\"\" in the cart")
-    public void iShouldSeeBlueShoesInTheCart(Integer int1) {
+
+    @Then("I should see {int} {product} in the cart")
+    public void iShouldSeeBlueShoesInTheCart(int quantity,Product product) {
+        cartPage = new CartPage(driver);
+        String names = cartPage.getProductNames();
+        Assert.assertEquals(product.getProductName(),names);
+        Assert.assertEquals(quantity,cartPage.getProductQuantity());
 
     }
 }

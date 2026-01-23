@@ -1,4 +1,4 @@
-
+@Removeproduct
 Feature: Remove product from cart
 
   Scenario: User removes a product from the shopping cart

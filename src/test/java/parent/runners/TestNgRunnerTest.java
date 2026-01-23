@@ -7,7 +7,7 @@ import static io.cucumber.testng.CucumberOptions.SnippetType.CAMELCASE;
 
 
 @CucumberOptions(
-        features = "src/test/resources/Features/",
+        features = "src/test/resources/Features",
         glue = {"parent"},
         snippets = CAMELCASE,
         plugin = {"pretty", "html:target/cucumber-report.html",

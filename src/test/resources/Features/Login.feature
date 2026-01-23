@@ -1,20 +1,35 @@
-Feature: Login Functionality
-  In order to do internet banking
-  As a valid Askmdch Customer
-  I want to login successfully
+@account
+Feature: User login
+
+  As a registered customer
+  I want to login into the AskOmDch Website
+  So that I can be able to access my saved information
+  and be prevented from logging in when credentials are invalid
 
 
-  Scenario Outline: Login successful
-    Given I am in the login form of the Askmdch Application
-    When I enter valid "<username_or_email>"
-    And I enter valid password "<password>"
-    And I click login button
-    Then I should be taken to the dashboard
+  Background:
+    Given I am on the Account Page
 
-    Examples:
-      | username_or_email | password |
-      | chris             | chris123 |
+    @Login
+  Rule: Access is granted to users with valid credentials
+    Scenario: Login with valid credentials
+      When I log in with valid credentials
+        | username | user2  |
+        | password | user2! |
+      Then I should be redirected to the Dashboard
+      And I should see a welcome message with "user2"
 
 
+  Rule: Access is denied for users with invalid credentials
+    Scenario Outline: Login with invalid credentials
+      When I log in with username "<username>" and password "<password>"
+      Then I should see a login error message "<errorMessage>"
+
+      Examples:
+        | username | password  | errorMessage                                                                                                                    |
+        | user2    | wrongPass | Error: The password you entered for the username user2 is incorrect. Lost your password?                                        |
+        |          | user2!    | Error: Username is required.                                                                                                    |
+        | user2    |           | Error: The password field is empty.                                                                                             |
+        | unknown  | user2!    | Error: The username unknown is not registered on this site. If you are unsure of your username, try your email address instead. |
 
 

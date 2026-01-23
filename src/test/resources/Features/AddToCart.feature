@@ -1,3 +1,4 @@
+@addToCart
 Feature: Add product to cart functionality
   As a customer
   I want to add products to my cart

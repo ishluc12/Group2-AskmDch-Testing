@@ -12,7 +12,7 @@ public class DriverFactory {
 
         switch(browser){
             case "chrome" -> {
-                System.setProperty("webdriver.chrome.driver", "driver/chromedriver");
+                System.setProperty("webdriver.chrome.driver", "driver/chromedriver.exe");
                 driver = new ChromeDriver();
             }
             case "firefox" -> {
@@ -21,6 +21,7 @@ public class DriverFactory {
             }
             default -> throw new IllegalAccessException("Invalid bowser:" + browser);
         }
+        driver.manage().window().maximize();
         return driver;
     }
     public static WebDriver getDriver(){

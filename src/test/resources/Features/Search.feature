@@ -1,3 +1,4 @@
+@searchProduct
 Feature: Product Search
   As a customer
   I want to search for products by name

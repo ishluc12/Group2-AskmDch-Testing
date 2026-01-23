@@ -1,3 +1,4 @@
+@placeOrder
 Feature: Checkout – Review and Place Order
   As an online shopper
   I want to review my shopping cart, enter my billing details, and complete my purchase

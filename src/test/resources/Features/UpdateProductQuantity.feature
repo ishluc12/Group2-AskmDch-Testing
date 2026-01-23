@@ -1,4 +1,4 @@
-
+@updateQuantity
 Feature: Update quantity of a product in the shopping cart
 
   Scenario: User updates the quantity of a product in the shopping cart

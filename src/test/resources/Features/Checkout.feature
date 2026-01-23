@@ -1,6 +1,6 @@
 @placeOrder
 Feature: Checkout – Review and Place Order
-  As an online shopper
+  As customer,
   I want to review my shopping cart, enter my billing details, and complete my purchase
   So that I can successfully receive the products I selected
 
@@ -11,17 +11,18 @@ Feature: Checkout – Review and Place Order
     And I add "Blue Shoes" to my cart
     When I proceed to checkout
     And I provide my billing information:
-      | First name     | John          |
-      | Last name      | Doe           |
-      | Company name   | Test Company  |
-      | Country/Region | Rwanda        |
-      | Street address | KG 123 St     |
-      | Apartment/unit | Apt 10        |
-      | City           | Kigali        |
-      | State          | Gasabo        |
-      | ZIP code       | 00000         |
-      | Phone          | 0780000000    |
-      | Email address  | john@test.com |
+      | firstname       | John              |
+      | lastname        | Doe               |
+      | company         | Acme Inc          |
+      | country         | United States     |
+      | lastAddressOne  | 123 Main St       |
+      | city            | New York          |
+      | stateName       | New York          |
+      | zipCode         | 10001             |
+      | email           | john@test.com     |
+      | phone           | 1234567890        |
+      | additionText    | Automation order  |
+
     And I select the payment method
     And I place the order
     Then I should see a confirmation message

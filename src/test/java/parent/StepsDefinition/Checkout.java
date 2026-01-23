@@ -30,9 +30,7 @@ public class Checkout {
 
     @When("I proceed to checkout")
     public void iProceedToCheckout() {
-        if (cartPage == null) {
-            cartPage = new CartPage(DriverFactory.getDriver());
-        }
+
         cartPage.clickCheckoutButton();
         checkoutPage = new CheckoutPage(driver);
     }

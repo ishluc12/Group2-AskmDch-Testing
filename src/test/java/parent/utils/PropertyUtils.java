@@ -18,7 +18,7 @@ public class PropertyUtils {
                 reader.close();
             } catch(FileNotFoundException e){
                 e.printStackTrace();
-                throw new RuntimeException("Properties file not fount at"+ filePath);
+                throw new RuntimeException("Properties file not found at"+ filePath);
             } catch(IOException e){
                 e.printStackTrace();
                 throw new RuntimeException("Failed to load properties file"+ filePath);

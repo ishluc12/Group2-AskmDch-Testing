@@ -11,7 +11,6 @@ import parent.pages.StorePage;
 
 public class BrowseByCategorySteps {
     private WebDriver driver;
-    protected CategoryPage categoryPage;
     protected StorePage storePage;
 
     @Given("I am on the Store page")

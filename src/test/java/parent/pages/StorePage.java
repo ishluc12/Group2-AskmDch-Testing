@@ -1,10 +1,12 @@
 package parent.pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
 import java.util.Objects;
@@ -23,7 +25,6 @@ public class StorePage extends BasePage{
     private WebElement accessoriesCategory;
     @FindBy(css = "ul.products li.product")
     private List<WebElement> productCards;
-
 
     public void addToCart(String productName){
         By addToCartButton = By.cssSelector("a[aria-label='Add “" + productName + "” to your cart']");
@@ -67,6 +68,4 @@ public class StorePage extends BasePage{
         wait.until(driver -> Objects.equals(((org.openqa.selenium.JavascriptExecutor) driver)
                 .executeScript("return document.readyState"), "complete"));
     }
-
-
 }

@@ -1,3 +1,4 @@
+
 package parent.domainObject;
 
 public class Product {
@@ -15,3 +16,4 @@ public class Product {
         this.product = product;
     }
 }
+

@@ -19,20 +19,15 @@ public class RegisterSteps {
     protected AccountPage accountPage;
 
 
-    @When("I register with valid data")
-    public void iRegisterWithValidData(DataTable table) {
-        Map<String, String> data = table.asMap(String.class, String.class);
-        LoginSteps.accountPage.settingAllRegFields(
-                data.get("username"),
-                data.get("email address"),
-                data.get("password")
-        );
+    @When("I register with username {string}, email {string}, and password {string}")
+    public void iRegisterWithValidData(String username, String email, String password) {
+        LoginSteps.accountPage.settingAllRegFields(username, email, password);
     }
 
     @Then("the account is registered and I get welcome message with name {string}")
     public void theAccountIsRegisteredAndIGetWelcomeMessageWithName(String expectedUsername) {
         String actualMessage = LoginSteps.accountPage.isWelcomeMessage();
-        Assert.assertEquals(actualMessage,expectedUsername);
+        Assert.assertEquals(actualMessage, expectedUsername);
     }
 
     @When("I register with invalid {string},{string} and {string}")
@@ -42,6 +37,7 @@ public class RegisterSteps {
 
     @When("clicks the register button")
     public void clicksTheRegisterButton() {
+
         LoginSteps.accountPage.clickRegisterButton();
     }
 

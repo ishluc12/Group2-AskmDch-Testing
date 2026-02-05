@@ -11,24 +11,29 @@ Feature: Customer Registration
   @Register
   Rule: New customer is registered as provided data are valid
 
-  Scenario: Register with valid data
-    When I register with valid data
-      | username      | cine111            |
-      | email address | cine7111@gmail.com |
-      | password      | kick45@askomdch    |
+  Scenario Outline: Register with valid data
+    When I register with username "<username>", email "<email>", and password "<password>"
     And clicks the register button
-    Then the account is registered and I get welcome message with name "cine111"
+    Then the account is registered and I get welcome message with name "<username>"
+    Examples:
+      | username | email              | password        |
+      | cin12    | cin331@gmail.com   | kick45@askomdch |
+      | pothe    | pothe211@gmail.com | poth211         |
+      | deimr    | deimr233@gmail.com | deiem233        |
+
+  @invalidRegister
 
   Rule: New customer is not registered as provided data are invalid
-    Scenario Outline: Register with invalid data
-      When I register with invalid "<username>","<email>" and "<password>"
-      And clicks the register button
-      Then the user should see an error message "<errorMessage>"
 
-      Examples:
-        | username    | email                | password   | errorMessage                                                                    |
-        | Testing Web | testing@Web.com      | testing123 | Error: An account is already registered with your email address. Please log in. |
-        |             | newuser1234@test.com | testing123 | Error: Please enter a valid account username.                                   |
-        | user1       |                      | user1!     | Error: Please provide a valid email address.                                    |
-        | user2       | user2@com            | user2!     | Error: Please provide a valid email address.                                    |
-        | user3       | user3@example.com    |            | Error: Please enter an account password.                                        |
+  Scenario Outline: Register with invalid data
+    When I register with invalid "<username>","<email>" and "<password>"
+    And clicks the register button
+    Then the user should see an error message "<errorMessage>"
+
+    Examples:
+      | username    | email                | password   | errorMessage                                                                    |
+      | Testing Web | testing@Web.com      | testing123 | Error: An account is already registered with your email address. Please log in. |
+      |             | newuser1234@test.com | testing123 | Error: Please enter a valid account username.                                   |
+      | user1       |                      | user1!     | Error: Please provide a valid email address.                                    |
+      | user2       | user2@com            | user2!     | Error: Please provide a valid email address.                                    |
+      | user3       | user3@example.com    |            | Error: Please enter an account password.                                        |

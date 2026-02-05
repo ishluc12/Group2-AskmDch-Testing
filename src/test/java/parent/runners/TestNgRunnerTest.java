@@ -7,13 +7,14 @@ import static io.cucumber.testng.CucumberOptions.SnippetType.CAMELCASE;
 
 
 @CucumberOptions(
-        features = "src/test/resources/Features/Checkout.feature",
+        features = "src/test/resources/Features/",
         glue = {"parent"},
         snippets = CAMELCASE,
         plugin = {"pretty", "html:target/cucumber-report.html",
                 "json:target/cucumber-report.json"},
 
-        monochrome = true
+        monochrome = true,
+        tags = "@Register"
 )
 public class TestNgRunnerTest extends AbstractTestNGCucumberTests {
 

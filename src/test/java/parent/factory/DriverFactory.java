@@ -6,25 +6,25 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class DriverFactory {
-    public static WebDriver driver;
+    private static WebDriver driver;
 
     public static WebDriver initializeDriver(String browser) throws IllegalAccessException {
-
-        switch(browser){
+        switch (browser.toLowerCase()) {
             case "chrome" -> {
-                System.setProperty("webdriver.chrome.driver", "driver/chromedriver.exe");
+                WebDriverManager.chromedriver().setup();
                 driver = new ChromeDriver();
             }
             case "firefox" -> {
-                System.setProperty("webdriver.gecko.driver", "driver/geckodriver.exe");
-                driver=new FirefoxDriver();
+                WebDriverManager.firefoxdriver().setup();
+                driver = new FirefoxDriver();
             }
-            default -> throw new IllegalAccessException("Invalid bowser:" + browser);
+            default -> throw new IllegalAccessException("Invalid browser: " + browser);
         }
         driver.manage().window().maximize();
         return driver;
     }
-    public static WebDriver getDriver(){
+
+    public static WebDriver getDriver() {
         return driver;
     }
 }

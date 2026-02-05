@@ -33,7 +33,7 @@ jobs:
 
       # Step 5: Optionally, upload test reports or artifacts
       - name: Upload test reports
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: bdd-test-reports
           path: target/surefire-reports/  # Maven default test report folder

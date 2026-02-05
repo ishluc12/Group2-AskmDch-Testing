@@ -23,17 +23,7 @@ jobs:
           java-version: '17'        # Java version used in your project
           distribution: 'temurin'   # standard JDK
 
-      # Step 3: Build the project (download dependencies)
-      - name: Build project
-        run: mvn -B clean install
+      - name: run test
+        run: mvn test
 
-#      # Step 4: Run Selenium BDD tests
-#      - name: Run Selenium BDD tests
-#        run: mvn test -B
 
-#      # Step 5: Optionally, upload test reports or artifacts
-#      - name: Upload test reports
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: bdd-test-reports
-#          path: target/surefire-reports/  # Maven default test report folder

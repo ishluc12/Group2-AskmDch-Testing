@@ -13,7 +13,7 @@ jobs:
 
     steps:
       # Step 1: Checkout the code
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v3
 
       # Step 2: Setup Java
@@ -25,7 +25,7 @@ jobs:
 
       # Step 3: Build the project (download dependencies)
       - name: Build project
-        run: mvn clean install -B
+        run: mvn -B clean install
 
 #      # Step 4: Run Selenium BDD tests
 #      - name: Run Selenium BDD tests

@@ -27,13 +27,13 @@ jobs:
       - name: Build project
         run: mvn clean install -B
 
-      # Step 4: Run Selenium BDD tests
-      - name: Run Selenium BDD tests
-        run: mvn test -B
+#      # Step 4: Run Selenium BDD tests
+#      - name: Run Selenium BDD tests
+#        run: mvn test -B
 
-      # Step 5: Optionally, upload test reports or artifacts
-      - name: Upload test reports
-        uses: actions/upload-artifact@v4
-        with:
-          name: bdd-test-reports
-          path: target/surefire-reports/  # Maven default test report folder
+#      # Step 5: Optionally, upload test reports or artifacts
+#      - name: Upload test reports
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: bdd-test-reports
+#          path: target/surefire-reports/  # Maven default test report folder
